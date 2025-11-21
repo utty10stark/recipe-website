@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Flame, Leaf, Clock } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 
 // Import assets
 import heroImage from "@assets/generated_images/dark_moody_cooking_ingredients_hero.png";
@@ -12,8 +13,18 @@ import soupImage from "@assets/generated_images/creamy_pumpkin_soup.png";
 import pastaImage from "@assets/generated_images/fresh_pasta_with_tomato_sauce.png";
 import toastImage from "@assets/generated_images/avocado_toast.png";
 
-export default function Home() {
-  const recipes = [
+interface Recipe {
+  title: string;
+  image: string;
+  time: string;
+  servings: number;
+  difficulty: "Easy" | "Medium" | "Hard";
+  category: string;
+  rating: number;
+}
+
+export default function Home({ recipes: passedRecipes = [], isAuthenticated = false, onLogout }: { recipes?: Recipe[]; isAuthenticated?: boolean; onLogout?: () => void }) {
+  const defaultRecipes = [
     {
       title: "Orange Glazed Salmon",
       image: salmonImage,
@@ -52,6 +63,13 @@ export default function Home() {
     }
   ];
 
+  const finalRecipes = passedRecipes.length > 0 ? passedRecipes : defaultRecipes;
+  
+  const displayRecipes = finalRecipes.map((recipe, idx) => ({
+    ...recipe,
+    image: recipe.image || [salmonImage, soupImage, pastaImage, toastImage][idx % 4] || salmonImage
+  }));
+
   const categories = [
     { name: "Quick & Easy", icon: Clock },
     { name: "Vegetarian", icon: Leaf },
@@ -60,7 +78,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background font-body">
-      <Navigation />
+      <Navigation isAuthenticated={isAuthenticated} onLogout={onLogout} />
       
       {/* Hero Section */}
       <section className="relative h-[600px] flex items-center overflow-hidden">
@@ -131,7 +149,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {recipes.map((recipe, index) => (
+            {displayRecipes.map((recipe, index) => (
               <RecipeCard key={index} {...recipe} />
             ))}
           </div>

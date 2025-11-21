@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Search, Menu } from "lucide-react";
+import { Search, Menu, LogOut, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-export function Navigation() {
+export function Navigation({ isAuthenticated = false, onLogout }: { isAuthenticated?: boolean; onLogout?: () => void }) {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container px-4 md:px-8 flex h-16 items-center justify-between">
@@ -33,7 +33,25 @@ export function Navigation() {
             <Input placeholder="Search recipes..." className="pl-8 bg-secondary/50 border-transparent focus-visible:bg-background transition-all" />
           </div>
           
-          <Button variant="default" className="hidden md:flex">Sign In</Button>
+          {isAuthenticated && (
+            <>
+              <Link href="/add-recipe" className="hidden md:flex">
+                <Button variant="default" className="gap-2 bg-primary hover:bg-primary/90">
+                  <Plus className="w-4 h-4" />
+                  Add Recipe
+                </Button>
+              </Link>
+              <Button variant="ghost" size="icon" onClick={onLogout} className="hidden md:flex hover:text-primary">
+                <LogOut className="w-5 h-5" />
+              </Button>
+            </>
+          )}
+          
+          {!isAuthenticated && (
+            <Link href="/login" className="hidden md:flex">
+              <Button variant="default">Sign In</Button>
+            </Link>
+          )}
 
           <Sheet>
             <SheetTrigger asChild>
@@ -44,11 +62,26 @@ export function Navigation() {
             <SheetContent>
               <div className="flex flex-col gap-4 mt-8">
                 <Link href="/" className="text-lg font-medium">Recipes</Link>
-                <Link href="/" className="text-lg font-medium">Popular</Link>
-                <Link href="/" className="text-lg font-medium">Chefs</Link>
-                <Link href="/" className="text-lg font-medium">About</Link>
+                <Link href="/" className="text-lg font-medium">Classics</Link>
+                <Link href="/" className="text-lg font-medium">Stories</Link>
+                <Link href="/" className="text-lg font-medium">Family</Link>
                 <hr className="my-2" />
-                <Button>Sign In</Button>
+                {isAuthenticated ? (
+                  <>
+                    <Link href="/add-recipe" className="text-lg font-medium flex items-center gap-2">
+                      <Plus className="w-4 h-4" />
+                      Add Recipe
+                    </Link>
+                    <Button variant="outline" onClick={onLogout} className="flex gap-2">
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </Button>
+                  </>
+                ) : (
+                  <Link href="/login">
+                    <Button>Sign In</Button>
+                  </Link>
+                )}
               </div>
             </SheetContent>
           </Sheet>
