@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronUp, ChevronDown } from "lucide-react";
 
 interface Recipe {
   title: string;
@@ -136,25 +136,67 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                     <label className="block text-sm font-semibold text-foreground mb-2">
                       Cook Time *
                     </label>
-                    <div className="flex gap-2">
-                      <select
-                        value={formData.hours}
-                        onChange={(e) => setFormData({ ...formData, hours: parseInt(e.target.value) })}
-                        className="flex-1 h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
-                      >
-                        {Array.from({ length: 13 }, (_, i) => i).map((h) => (
-                          <option key={h} value={h}>{h} {h === 1 ? "hour" : "hours"}</option>
-                        ))}
-                      </select>
-                      <select
-                        value={formData.minutes}
-                        onChange={(e) => setFormData({ ...formData, minutes: parseInt(e.target.value) })}
-                        className="flex-1 h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
-                      >
-                        {Array.from({ length: 12 }, (_, i) => i * 5).map((m) => (
-                          <option key={m} value={m}>{m} min</option>
-                        ))}
-                      </select>
+                    <div className="flex gap-4">
+                      <div className="flex-1">
+                        <label className="block text-xs text-muted-foreground mb-2">Hours</label>
+                        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 h-12">
+                          <button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) })}
+                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                          >
+                            <ChevronDown className="w-5 h-5 text-primary" />
+                          </button>
+                          <input
+                            type="number"
+                            min="0"
+                            max="24"
+                            value={formData.hours}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value) || 0;
+                              setFormData({ ...formData, hours: Math.max(0, Math.min(24, val)) });
+                            }}
+                            className="flex-1 text-center bg-transparent text-foreground font-semibold text-lg outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) })}
+                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                          >
+                            <ChevronUp className="w-5 h-5 text-primary" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <label className="block text-xs text-muted-foreground mb-2">Minutes</label>
+                        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 h-12">
+                          <button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) })}
+                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                          >
+                            <ChevronDown className="w-5 h-5 text-primary" />
+                          </button>
+                          <input
+                            type="number"
+                            min="0"
+                            max="59"
+                            value={formData.minutes}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value) || 0;
+                              setFormData({ ...formData, minutes: Math.max(0, Math.min(59, val)) });
+                            }}
+                            className="flex-1 text-center bg-transparent text-foreground font-semibold text-lg outline-none"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) })}
+                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                          >
+                            <ChevronUp className="w-5 h-5 text-primary" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
