@@ -104,38 +104,37 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
-                      Category *
-                    </label>
-                    <select
-                      value={showNewCategory ? "Create New Category" : formData.category}
-                      onChange={(e) => handleCategoryChange(e.target.value)}
-                      className="w-full h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
-                      required={!showNewCategory}
-                    >
-                      <option value="">Select a category</option>
-                      {existingCategories.map((cat) => (
-                        <option key={cat} value={cat}>{cat}</option>
-                      ))}
-                      <option value="Create New Category">+ Create New Category</option>
-                    </select>
-                    {showNewCategory && (
-                      <Input
-                        placeholder="New category name"
-                        value={newCategoryInput}
-                        onChange={(e) => setNewCategoryInput(e.target.value)}
-                        className="h-12 text-base mt-2"
-                        required
-                      />
-                    )}
-                  </div>
+                <div>
+                  <label className="block text-sm font-semibold text-foreground mb-2">
+                    Category *
+                  </label>
+                  <select
+                    value={showNewCategory ? "Create New Category" : formData.category}
+                    onChange={(e) => handleCategoryChange(e.target.value)}
+                    className="w-full h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
+                    required={!showNewCategory}
+                  >
+                    <option value="">Select a category</option>
+                    {existingCategories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                    <option value="Create New Category">+ Create New Category</option>
+                  </select>
+                  {showNewCategory && (
+                    <Input
+                      placeholder="New category name"
+                      value={newCategoryInput}
+                      onChange={(e) => setNewCategoryInput(e.target.value)}
+                      className="h-12 text-base mt-2"
+                      required
+                    />
+                  )}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">
-                      Cook Time *
-                    </label>
+                <div>
+                  <label className="block text-sm font-semibold text-foreground mb-2">
+                    Cook Time *
+                  </label>
                     <div className="flex gap-4">
                       <div className="flex-1">
                         <label className="block text-xs text-muted-foreground mb-2">Hours</label>
@@ -198,7 +197,6 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
