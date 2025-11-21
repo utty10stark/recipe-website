@@ -23,7 +23,8 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
   const [formData, setFormData] = useState({
     title: "",
     category: "",
-    time: "",
+    hours: 0,
+    minutes: 30,
     servings: 2,
     difficulty: "Easy" as const,
     ingredients: "",
@@ -43,14 +44,22 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
     }
   };
 
+  const buildTimeString = () => {
+    const parts = [];
+    if (formData.hours > 0) parts.push(`${formData.hours}h`);
+    if (formData.minutes > 0) parts.push(`${formData.minutes}m`);
+    return parts.length > 0 ? parts.join(" ") : "0m";
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const finalCategory = showNewCategory ? newCategoryInput : formData.category;
-    if (formData.title && finalCategory && formData.time && formData.ingredients) {
+    const timeString = buildTimeString();
+    if (formData.title && finalCategory && (formData.hours > 0 || formData.minutes > 0) && formData.ingredients) {
       onRecipeAdded({
         title: formData.title,
         category: finalCategory,
-        time: formData.time,
+        time: timeString,
         servings: formData.servings,
         difficulty: formData.difficulty,
         ingredients: formData.ingredients,
@@ -127,13 +136,26 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                     <label className="block text-sm font-semibold text-foreground mb-2">
                       Cook Time *
                     </label>
-                    <Input
-                      placeholder="e.g., 45 min"
-                      value={formData.time}
-                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
-                      className="h-12 text-base"
-                      required
-                    />
+                    <div className="flex gap-2">
+                      <select
+                        value={formData.hours}
+                        onChange={(e) => setFormData({ ...formData, hours: parseInt(e.target.value) })}
+                        className="flex-1 h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
+                      >
+                        {Array.from({ length: 13 }, (_, i) => i).map((h) => (
+                          <option key={h} value={h}>{h} {h === 1 ? "hour" : "hours"}</option>
+                        ))}
+                      </select>
+                      <select
+                        value={formData.minutes}
+                        onChange={(e) => setFormData({ ...formData, minutes: parseInt(e.target.value) })}
+                        className="flex-1 h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
+                      >
+                        {Array.from({ length: 12 }, (_, i) => i * 5).map((m) => (
+                          <option key={m} value={m}>{m} min</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
