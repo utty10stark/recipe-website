@@ -81,15 +81,15 @@ export default function Home() {
             className="max-w-2xl"
           >
             <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">
-              Recipe of the Day
+              Omarjee Family Recipes
             </span>
             <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Master the Art <br />
-              of <span className="text-primary">Modern Cooking</span>
+              Timeless Recipes <br />
+              from Our <span className="text-primary">Kitchen</span>
             </h1>
             <p className="text-lg text-gray-200 mb-8 max-w-lg leading-relaxed">
-              Discover thousands of recipes curated for the modern home chef. 
-              Simple ingredients, extraordinary flavors.
+              Discover cherished family recipes passed down through generations. 
+              Traditional flavors, modern techniques, pure love in every bite.
             </p>
             <div className="flex gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-white border-none rounded-full px-8 h-12 text-base font-semibold">
@@ -125,8 +125,8 @@ export default function Home() {
         <div className="container">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <h2 className="font-heading text-4xl font-bold mb-2 text-foreground">Fresh from the Kitchen</h2>
-              <p className="text-muted-foreground text-lg">Hand-picked recipes for this week</p>
+              <h2 className="font-heading text-4xl font-bold mb-2 text-foreground">Family Favorites</h2>
+              <p className="text-muted-foreground text-lg">Recipes that bring the Omarjee family together</p>
             </div>
           </div>
 
@@ -143,9 +143,9 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/10 -skew-x-12 transform translate-x-1/4" />
         <div className="container relative z-10">
           <div className="max-w-2xl">
-            <h2 className="font-heading text-4xl font-bold mb-4">Don't Miss a Recipe</h2>
+            <h2 className="font-heading text-4xl font-bold mb-4">Keep the Tradition Alive</h2>
             <p className="text-gray-400 text-lg mb-8">
-              Join 50,000+ home chefs and get weekly recipes delivered straight to your inbox.
+              Get new family recipes and cooking stories delivered to your inbox. Preserve our culinary heritage together.
             </p>
             <div className="flex gap-2 max-w-md">
               <Input 
@@ -162,7 +162,7 @@ export default function Home() {
       
       <footer className="py-12 bg-background border-t">
         <div className="container text-center text-muted-foreground">
-          <p>© 2024 Culinary. All rights reserved.</p>
+          <p>© 2024 Omarjee Family Recipes. Cooking with love, sharing with family.</p>
         </div>
       </footer>
     </div>

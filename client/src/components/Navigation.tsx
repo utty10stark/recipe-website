@@ -15,15 +15,15 @@ export function Navigation() {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2">
             <span className="font-heading text-2xl font-bold text-foreground">
-              Culin<span className="text-primary">ary.</span>
+              Omarj<span className="text-primary">ee</span>
             </span>
           </Link>
           
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
             <Link href="/" className="hover:text-primary transition-colors">Recipes</Link>
-            <Link href="/" className="hover:text-primary transition-colors">Popular</Link>
-            <Link href="/" className="hover:text-primary transition-colors">Chefs</Link>
-            <Link href="/" className="hover:text-primary transition-colors">About</Link>
+            <Link href="/" className="hover:text-primary transition-colors">Classics</Link>
+            <Link href="/" className="hover:text-primary transition-colors">Stories</Link>
+            <Link href="/" className="hover:text-primary transition-colors">Family</Link>
           </div>
         </div>
 
