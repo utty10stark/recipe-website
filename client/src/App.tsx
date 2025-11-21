@@ -27,11 +27,13 @@ function Router({ isAuth, recipes, onAddRecipe, onLogin, onLogout }: {
   onLogin: () => void;
   onLogout: () => void;
 }) {
+  const existingCategories = Array.from(new Set(recipes.map(r => r.category).filter(Boolean)));
+  
   return (
     <Switch>
       <Route path="/" component={() => <Home recipes={recipes} isAuthenticated={isAuth} onLogout={onLogout} />} />
       <Route path="/login" component={() => isAuth ? null : <Login onLoginSuccess={onLogin} />} />
-      <Route path="/add-recipe" component={() => isAuth ? <AddRecipe onRecipeAdded={onAddRecipe} /> : <Login onLoginSuccess={onLogin} />} />
+      <Route path="/add-recipe" component={() => isAuth ? <AddRecipe onRecipeAdded={onAddRecipe} existingCategories={existingCategories} /> : <Login onLoginSuccess={onLogin} />} />
       <Route component={NotFound} />
     </Switch>
   );

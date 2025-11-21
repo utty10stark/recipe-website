@@ -16,8 +16,10 @@ interface Recipe {
   ingredients: string;
 }
 
-export default function AddRecipe({ onRecipeAdded }: { onRecipeAdded: (recipe: Recipe) => void }) {
+export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { onRecipeAdded: (recipe: Recipe) => void; existingCategories?: string[] }) {
   const [, setLocation] = useLocation();
+  const [showNewCategory, setShowNewCategory] = useState(false);
+  const [newCategoryInput, setNewCategoryInput] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -27,12 +29,27 @@ export default function AddRecipe({ onRecipeAdded }: { onRecipeAdded: (recipe: R
     ingredients: "",
   });
 
+  const categoriesOptions = [...existingCategories, "Create New Category"];
+  
+  const handleCategoryChange = (value: string) => {
+    if (value === "Create New Category") {
+      setShowNewCategory(true);
+      setFormData({ ...formData, category: "" });
+      setNewCategoryInput("");
+    } else {
+      setShowNewCategory(false);
+      setFormData({ ...formData, category: value });
+      setNewCategoryInput("");
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.title && formData.category && formData.time && formData.ingredients) {
+    const finalCategory = showNewCategory ? newCategoryInput : formData.category;
+    if (formData.title && finalCategory && formData.time && formData.ingredients) {
       onRecipeAdded({
         title: formData.title,
-        category: formData.category,
+        category: finalCategory,
         time: formData.time,
         servings: formData.servings,
         difficulty: formData.difficulty,
@@ -83,13 +100,27 @@ export default function AddRecipe({ onRecipeAdded }: { onRecipeAdded: (recipe: R
                     <label className="block text-sm font-semibold text-foreground mb-2">
                       Category *
                     </label>
-                    <Input
-                      placeholder="e.g., Dinner"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="h-12 text-base"
-                      required
-                    />
+                    <select
+                      value={showNewCategory ? "Create New Category" : formData.category}
+                      onChange={(e) => handleCategoryChange(e.target.value)}
+                      className="w-full h-12 px-3 border border-border rounded-md bg-background text-foreground text-base"
+                      required={!showNewCategory}
+                    >
+                      <option value="">Select a category</option>
+                      {existingCategories.map((cat) => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                      <option value="Create New Category">+ Create New Category</option>
+                    </select>
+                    {showNewCategory && (
+                      <Input
+                        placeholder="New category name"
+                        value={newCategoryInput}
+                        onChange={(e) => setNewCategoryInput(e.target.value)}
+                        className="h-12 text-base mt-2"
+                        required
+                      />
+                    )}
                   </div>
 
                   <div>
