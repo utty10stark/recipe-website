@@ -30,6 +30,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
     servings: 2,
     difficulty: "Easy" as const,
     ingredients: "",
+    instructions: "",
   });
 
   const handleMouseDown = (action: () => void) => {
@@ -81,7 +82,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
     e.preventDefault();
     const finalCategory = showNewCategory ? newCategoryInput : formData.category;
     const timeString = buildTimeString();
-    if (formData.title && finalCategory && (formData.hours > 0 || formData.minutes > 0) && formData.ingredients) {
+    if (formData.title && finalCategory && (formData.hours > 0 || formData.minutes > 0) && formData.ingredients && formData.instructions) {
       onRecipeAdded({
         title: formData.title,
         category: finalCategory,
@@ -89,6 +90,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
         servings: formData.servings,
         difficulty: formData.difficulty,
         ingredients: formData.ingredients,
+        instructions: formData.instructions,
         image: imagePreview,
       });
       setLocation("/");
@@ -315,6 +317,19 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                     placeholder="List ingredients (one per line)"
                     value={formData.ingredients}
                     onChange={(e) => setFormData({ ...formData, ingredients: e.target.value })}
+                    className="min-h-32 text-base resize-none"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-foreground mb-2">
+                    Instructions *
+                  </label>
+                  <Textarea
+                    placeholder="Enter cooking instructions"
+                    value={formData.instructions}
+                    onChange={(e) => setFormData({ ...formData, instructions: e.target.value })}
                     className="min-h-32 text-base resize-none"
                     required
                   />

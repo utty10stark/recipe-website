@@ -21,6 +21,8 @@ interface Recipe {
   difficulty: "Easy" | "Medium" | "Hard";
   category: string;
   rating: number;
+  ingredients?: string;
+  instructions?: string;
 }
 
 export default function Home({ recipes: passedRecipes = [], isAuthenticated = false, onLogout }: { recipes?: Recipe[]; isAuthenticated?: boolean; onLogout?: () => void }) {
@@ -149,9 +151,27 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {displayRecipes.map((recipe, index) => (
-              <RecipeCard key={index} {...recipe} />
-            ))}
+            {displayRecipes.map((recipe, index) => {
+              const ingredientsList = recipe.ingredients ? recipe.ingredients.split('\n').filter(i => i.trim()) : [];
+              return (
+                <div key={index} className="group">
+                  <RecipeCard {...recipe} />
+                  {ingredientsList.length > 0 && (
+                    <div className="mt-4 bg-card border border-border rounded-lg p-4 max-h-0 group-hover:max-h-96 overflow-hidden transition-all duration-300">
+                      <h4 className="text-sm font-semibold text-foreground mb-2">Ingredients:</h4>
+                      <ul className="space-y-1">
+                        {ingredientsList.map((ingredient, i) => (
+                          <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                            <span className="text-primary font-bold mt-0.5">•</span>
+                            <span>{ingredient.trim()}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
