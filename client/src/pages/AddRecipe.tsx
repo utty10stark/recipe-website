@@ -138,7 +138,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                   <div className="flex flex-col gap-2 w-32">
                     <div>
                       <label className="block text-xs text-muted-foreground mb-1">Hours</label>
-                      <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
+                      <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
                           type="button"
                           onClick={() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) })}
@@ -173,7 +173,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                     </div>
                     <div>
                       <label className="block text-xs text-muted-foreground mb-1">Minutes</label>
-                      <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
+                      <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
                           type="button"
                           onClick={() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) })}
