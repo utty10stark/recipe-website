@@ -147,13 +147,18 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                             <ChevronDown className="w-5 h-5 text-primary" />
                           </button>
                           <input
-                            type="number"
-                            min="0"
-                            max="24"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
                             value={formData.hours}
                             onChange={(e) => {
-                              const val = parseInt(e.target.value) || 0;
-                              setFormData({ ...formData, hours: Math.max(0, Math.min(24, val)) });
+                              const val = e.target.value.replace(/[^0-9]/g, "");
+                              if (val === "") {
+                                setFormData({ ...formData, hours: 0 });
+                              } else {
+                                const num = Math.max(0, Math.min(24, parseInt(val)));
+                                setFormData({ ...formData, hours: num });
+                              }
                             }}
                             className="flex-1 text-center bg-transparent text-foreground font-semibold text-lg outline-none"
                           />
@@ -177,13 +182,18 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                             <ChevronDown className="w-5 h-5 text-primary" />
                           </button>
                           <input
-                            type="number"
-                            min="0"
-                            max="59"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
                             value={formData.minutes}
                             onChange={(e) => {
-                              const val = parseInt(e.target.value) || 0;
-                              setFormData({ ...formData, minutes: Math.max(0, Math.min(59, val)) });
+                              const val = e.target.value.replace(/[^0-9]/g, "");
+                              if (val === "") {
+                                setFormData({ ...formData, minutes: 0 });
+                              } else {
+                                const num = Math.max(0, Math.min(59, parseInt(val)));
+                                setFormData({ ...formData, minutes: num });
+                              }
                             }}
                             className="flex-1 text-center bg-transparent text-foreground font-semibold text-lg outline-none"
                           />
