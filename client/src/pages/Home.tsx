@@ -88,15 +88,8 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
       <Navigation isAuthenticated={isAuthenticated} onLogout={onLogout} />
       
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={heroImage} 
-            alt="Cooking ingredients" 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-        </div>
+      <section className="relative h-[600px] flex items-center overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-primary/20">
+        <div className="absolute inset-0 z-0" />
         
         <div className="container px-4 md:px-8 relative z-10 text-white">
           <motion.div 
