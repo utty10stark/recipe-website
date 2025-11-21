@@ -4,6 +4,7 @@ import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft } from "lucide-react";
 
 interface Recipe {
@@ -12,6 +13,7 @@ interface Recipe {
   time: string;
   servings: number;
   difficulty: "Easy" | "Medium" | "Hard";
+  ingredients: string;
 }
 
 export default function AddRecipe({ onRecipeAdded }: { onRecipeAdded: (recipe: Recipe) => void }) {
@@ -22,17 +24,19 @@ export default function AddRecipe({ onRecipeAdded }: { onRecipeAdded: (recipe: R
     time: "",
     servings: 2,
     difficulty: "Easy" as const,
+    ingredients: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.title && formData.category && formData.time) {
+    if (formData.title && formData.category && formData.time && formData.ingredients) {
       onRecipeAdded({
         title: formData.title,
         category: formData.category,
         time: formData.time,
         servings: formData.servings,
         difficulty: formData.difficulty,
+        ingredients: formData.ingredients,
       });
       setLocation("/");
     }
@@ -135,6 +139,19 @@ export default function AddRecipe({ onRecipeAdded }: { onRecipeAdded: (recipe: R
                       <option value="Hard">Hard</option>
                     </select>
                   </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-foreground mb-2">
+                    Ingredients *
+                  </label>
+                  <Textarea
+                    placeholder="List ingredients (one per line)"
+                    value={formData.ingredients}
+                    onChange={(e) => setFormData({ ...formData, ingredients: e.target.value })}
+                    className="min-h-32 text-base resize-none"
+                    required
+                  />
                 </div>
 
                 <div className="flex gap-4 pt-6">

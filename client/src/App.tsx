@@ -17,12 +17,13 @@ interface Recipe {
   difficulty: "Easy" | "Medium" | "Hard";
   category: string;
   rating: number;
+  ingredients?: string;
 }
 
 function Router({ isAuth, recipes, onAddRecipe, onLogin, onLogout }: {
   isAuth: boolean;
   recipes: Recipe[];
-  onAddRecipe: (recipe: Omit<Recipe, 'image' | 'rating'>) => void;
+  onAddRecipe: (recipe: Omit<Recipe, 'image' | 'rating'> & { ingredients: string }) => void;
   onLogin: () => void;
   onLogout: () => void;
 }) {
@@ -91,7 +92,7 @@ function App() {
     setIsAuthenticated(false);
   };
 
-  const handleAddRecipe = (newRecipe: Omit<Recipe, 'image' | 'rating'>) => {
+  const handleAddRecipe = (newRecipe: Omit<Recipe, 'image' | 'rating'> & { ingredients: string }) => {
     setRecipes([
       ...recipes,
       {
