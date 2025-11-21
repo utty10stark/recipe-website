@@ -135,78 +135,78 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                   <label className="block text-sm font-semibold text-foreground mb-2">
                     Cook Time *
                   </label>
-                    <div className="flex gap-4">
-                      <div className="flex-1">
-                        <label className="block text-xs text-muted-foreground mb-2">Hours</label>
-                        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 h-12">
-                          <button
-                            type="button"
-                            onClick={() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) })}
-                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                          >
-                            <ChevronDown className="w-5 h-5 text-primary" />
-                          </button>
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            value={formData.hours}
-                            onChange={(e) => {
-                              const val = e.target.value.replace(/[^0-9]/g, "");
-                              if (val === "") {
-                                setFormData({ ...formData, hours: 0 });
-                              } else {
-                                const num = Math.max(0, Math.min(24, parseInt(val)));
-                                setFormData({ ...formData, hours: num });
-                              }
-                            }}
-                            className="flex-1 text-center bg-transparent text-foreground font-semibold text-lg outline-none"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) })}
-                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                          >
-                            <ChevronUp className="w-5 h-5 text-primary" />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <label className="block text-xs text-muted-foreground mb-2">Minutes</label>
-                        <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 h-12">
-                          <button
-                            type="button"
-                            onClick={() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) })}
-                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                          >
-                            <ChevronDown className="w-5 h-5 text-primary" />
-                          </button>
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            value={formData.minutes}
-                            onChange={(e) => {
-                              const val = e.target.value.replace(/[^0-9]/g, "");
-                              if (val === "") {
-                                setFormData({ ...formData, minutes: 0 });
-                              } else {
-                                const num = Math.max(0, Math.min(59, parseInt(val)));
-                                setFormData({ ...formData, minutes: num });
-                              }
-                            }}
-                            className="flex-1 text-center bg-transparent text-foreground font-semibold text-lg outline-none"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) })}
-                            className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                          >
-                            <ChevronUp className="w-5 h-5 text-primary" />
-                          </button>
-                        </div>
+                  <div className="flex gap-3 max-w-xs">
+                    <div className="flex-1">
+                      <label className="block text-xs text-muted-foreground mb-1">Hours</label>
+                      <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-10">
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) })}
+                          className="flex items-center justify-center w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        >
+                          <ChevronDown className="w-4 h-4 text-primary" />
+                        </button>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={formData.hours}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/[^0-9]/g, "");
+                            if (val === "") {
+                              setFormData({ ...formData, hours: 0 });
+                            } else {
+                              const num = Math.max(0, Math.min(24, parseInt(val)));
+                              setFormData({ ...formData, hours: num });
+                            }
+                          }}
+                          className="flex-1 text-center bg-transparent text-foreground font-semibold text-base outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) })}
+                          className="flex items-center justify-center w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        >
+                          <ChevronUp className="w-4 h-4 text-primary" />
+                        </button>
                       </div>
                     </div>
+                    <div className="flex-1">
+                      <label className="block text-xs text-muted-foreground mb-1">Minutes</label>
+                      <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-10">
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) })}
+                          className="flex items-center justify-center w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        >
+                          <ChevronDown className="w-4 h-4 text-primary" />
+                        </button>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={formData.minutes}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/[^0-9]/g, "");
+                            if (val === "") {
+                              setFormData({ ...formData, minutes: 0 });
+                            } else {
+                              const num = Math.max(0, Math.min(59, parseInt(val)));
+                              setFormData({ ...formData, minutes: num });
+                            }
+                          }}
+                          className="flex-1 text-center bg-transparent text-foreground font-semibold text-base outline-none"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) })}
+                          className="flex items-center justify-center w-8 h-8 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        >
+                          <ChevronUp className="w-4 h-4 text-primary" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
