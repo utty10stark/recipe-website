@@ -20,6 +20,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
   const [, setLocation] = useLocation();
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState("");
+  const [holdingButton, setHoldingButton] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -29,6 +30,18 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
     difficulty: "Easy" as const,
     ingredients: "",
   });
+
+  const handleMouseDown = (action: () => void) => {
+    action();
+    const interval = setInterval(action, 100);
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  };
 
   const categoriesOptions = [...existingCategories, "Create New Category"];
   
@@ -141,10 +154,13 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                       <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
                           type="button"
+                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) }))}
+                          onMouseUp={() => setHoldingButton(null)}
+                          onMouseLeave={() => setHoldingButton(null)}
                           onClick={() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) })}
-                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0"
+                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
-                          <ChevronUp className="w-3 h-3 text-primary" />
+                          <ChevronUp className="w-3 h-3 text-primary pointer-events-none" />
                         </button>
                         <input
                           type="text"
@@ -164,10 +180,13 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                         />
                         <button
                           type="button"
+                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) }))}
+                          onMouseUp={() => setHoldingButton(null)}
+                          onMouseLeave={() => setHoldingButton(null)}
                           onClick={() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) })}
-                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0"
+                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
-                          <ChevronDown className="w-3 h-3 text-primary" />
+                          <ChevronDown className="w-3 h-3 text-primary pointer-events-none" />
                         </button>
                       </div>
                     </div>
@@ -176,10 +195,13 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                       <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
                           type="button"
+                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) }))}
+                          onMouseUp={() => setHoldingButton(null)}
+                          onMouseLeave={() => setHoldingButton(null)}
                           onClick={() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) })}
-                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0"
+                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
-                          <ChevronUp className="w-3 h-3 text-primary" />
+                          <ChevronUp className="w-3 h-3 text-primary pointer-events-none" />
                         </button>
                         <input
                           type="text"
@@ -199,10 +221,13 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                         />
                         <button
                           type="button"
+                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) }))}
+                          onMouseUp={() => setHoldingButton(null)}
+                          onMouseLeave={() => setHoldingButton(null)}
                           onClick={() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) })}
-                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0"
+                          className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
-                          <ChevronDown className="w-3 h-3 text-primary" />
+                          <ChevronDown className="w-3 h-3 text-primary pointer-events-none" />
                         </button>
                       </div>
                     </div>
