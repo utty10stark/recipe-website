@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Navigation } from "@/components/Navigation";
 import { RecipeCard } from "@/components/RecipeCard";
+import { RecipeModal } from "@/components/RecipeModal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Flame, Leaf, Clock } from "lucide-react";
@@ -26,6 +28,8 @@ interface Recipe {
 }
 
 export default function Home({ recipes: passedRecipes = [], isAuthenticated = false, onLogout }: { recipes?: Recipe[]; isAuthenticated?: boolean; onLogout?: () => void }) {
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  
   const defaultRecipes = [
     {
       title: "Orange Glazed Salmon",
@@ -80,6 +84,7 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
 
   return (
     <div className="min-h-screen bg-background font-body">
+      <RecipeModal recipe={selectedRecipe} open={!!selectedRecipe} onOpenChange={(open) => !open && setSelectedRecipe(null)} />
       <Navigation isAuthenticated={isAuthenticated} onLogout={onLogout} />
       
       {/* Hero Section */}
@@ -155,7 +160,7 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
               const ingredientsList = recipe.ingredients ? recipe.ingredients.split('\n').filter(i => i.trim()) : [];
               return (
                 <div key={index} className="group">
-                  <RecipeCard {...recipe} />
+                  <RecipeCard {...recipe} onClick={() => setSelectedRecipe(recipe)} />
                   {ingredientsList.length > 0 && (
                     <div className="mt-4 bg-card border border-border rounded-lg p-4 max-h-0 group-hover:max-h-96 overflow-hidden transition-all duration-300">
                       <h4 className="text-sm font-semibold text-foreground mb-2">Ingredients:</h4>

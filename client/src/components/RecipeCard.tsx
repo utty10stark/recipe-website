@@ -11,13 +11,16 @@ interface RecipeCardProps {
   difficulty: "Easy" | "Medium" | "Hard";
   category: string;
   rating: number;
+  onClick?: () => void;
 }
 
-export function RecipeCard({ title, image, time, servings, difficulty, category, rating }: RecipeCardProps) {
+export function RecipeCard({ title, image, time, servings, difficulty, category, rating, onClick }: RecipeCardProps) {
   return (
     <motion.div
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300 }}
+      onClick={onClick}
+      className="cursor-pointer"
     >
       <Card className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col group bg-card">
         <div className="relative aspect-[4/3] overflow-hidden">
