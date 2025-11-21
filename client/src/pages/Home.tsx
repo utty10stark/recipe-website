@@ -73,7 +73,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
         </div>
         
-        <div className="container relative z-10 text-white">
+        <div className="container px-4 md:px-8 relative z-10 text-white">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -105,7 +105,7 @@ export default function Home() {
 
       {/* Categories */}
       <section className="py-12 border-b">
-        <div className="container">
+        <div className="container px-4 md:px-8">
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             {categories.map((cat, i) => (
               <Button key={i} variant="secondary" className="h-12 px-6 rounded-full gap-2 text-base font-medium hover:bg-primary/10 hover:text-primary transition-colors">
@@ -122,7 +122,7 @@ export default function Home() {
 
       {/* Featured Recipes */}
       <section className="py-20 bg-secondary/30">
-        <div className="container">
+        <div className="container px-4 md:px-8">
           <div className="flex items-end justify-between mb-12">
             <div>
               <h2 className="font-heading text-4xl font-bold mb-2 text-foreground">Family Favorites</h2>
@@ -141,7 +141,7 @@ export default function Home() {
       {/* Newsletter */}
       <section className="py-24 bg-foreground text-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/10 -skew-x-12 transform translate-x-1/4" />
-        <div className="container relative z-10">
+        <div className="container px-4 md:px-8 relative z-10">
           <div className="max-w-2xl">
             <h2 className="font-heading text-4xl font-bold mb-4">Keep the Tradition Alive</h2>
             <p className="text-gray-400 text-lg mb-8">
@@ -161,7 +161,7 @@ export default function Home() {
       </section>
       
       <footer className="py-12 bg-background border-t">
-        <div className="container text-center text-muted-foreground">
+        <div className="container px-4 md:px-8 text-center text-muted-foreground">
           <p>© 2024 Omarjee Family Recipes. Cooking with love, sharing with family.</p>
         </div>
       </footer>
