@@ -136,7 +136,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                     Cook Time *
                   </label>
                   <div className="flex gap-2">
-                    <div className="w-20">
+                    <div className="w-24">
                       <label className="block text-xs text-muted-foreground mb-1">Hours</label>
                       <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
@@ -171,7 +171,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                         </button>
                       </div>
                     </div>
-                    <div className="w-20">
+                    <div className="w-24">
                       <label className="block text-xs text-muted-foreground mb-1">Minutes</label>
                       <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
