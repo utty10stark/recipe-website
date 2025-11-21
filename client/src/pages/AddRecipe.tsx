@@ -20,6 +20,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
   const [, setLocation] = useLocation();
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState("");
+  const [imagePreview, setImagePreview] = useState<string>("");
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -65,6 +66,17 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
     return parts.length > 0 ? parts.join(" ") : "0m";
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const finalCategory = showNewCategory ? newCategoryInput : formData.category;
@@ -77,6 +89,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
         servings: formData.servings,
         difficulty: formData.difficulty,
         ingredients: formData.ingredients,
+        image: imagePreview,
       });
       setLocation("/");
     }
@@ -105,6 +118,34 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
 
             <CardContent className="pt-8">
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-foreground mb-2">
+                    Recipe Image
+                  </label>
+                  <div className="border-2 border-dashed border-border rounded-lg p-4 text-center hover:border-primary transition-colors cursor-pointer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="cursor-pointer">
+                      {imagePreview ? (
+                        <div className="space-y-2">
+                          <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover rounded-lg" />
+                          <p className="text-sm text-muted-foreground">Click to change image</p>
+                        </div>
+                      ) : (
+                        <div className="py-8 space-y-2">
+                          <p className="text-sm font-medium text-foreground">Click to upload image</p>
+                          <p className="text-xs text-muted-foreground">PNG, JPG up to 5MB</p>
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-2">
                     Recipe Name *
