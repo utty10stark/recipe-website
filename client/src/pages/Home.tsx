@@ -29,6 +29,7 @@ interface Recipe {
 
 export default function Home({ recipes: passedRecipes = [], isAuthenticated = false, onLogout }: { recipes?: Recipe[]; isAuthenticated?: boolean; onLogout?: () => void }) {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   
   const defaultRecipes = [
     {
@@ -75,6 +76,14 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
     ...recipe,
     image: recipe.image || [salmonImage, soupImage, pastaImage, toastImage][idx % 4] || salmonImage
   }));
+
+  const categoryFilterMap = {
+    "Quick & Easy": (recipe: Recipe) => recipe.difficulty === "Easy",
+    "Vegetarian": (recipe: Recipe) => recipe.category === "Breakfast" || recipe.category === "Salad",
+    "Trending": (recipe: Recipe) => recipe.rating >= 4.8
+  };
+
+  const filteredRecipes = selectedCategory ? displayRecipes.filter(categoryFilterMap[selectedCategory as keyof typeof categoryFilterMap]) : displayRecipes;
 
   const categories = [
     { name: "Quick & Easy", icon: Clock },
@@ -125,8 +134,26 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
       <section className="py-12 border-b">
         <div className="container px-4 md:px-8">
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+            {selectedCategory && (
+              <Button 
+                onClick={() => setSelectedCategory(null)}
+                className="h-12 px-6 rounded-full gap-2 text-base font-medium bg-primary hover:bg-primary/90 text-white"
+              >
+                <ArrowRight className="w-4 h-4 rotate-180" />
+                Clear Filter
+              </Button>
+            )}
             {categories.map((cat, i) => (
-              <Button key={i} variant="secondary" className="h-12 px-6 rounded-full gap-2 text-base font-medium hover:bg-primary/10 hover:text-primary transition-colors">
+              <Button 
+                key={i} 
+                onClick={() => setSelectedCategory(cat.name)}
+                variant={selectedCategory === cat.name ? "default" : "secondary"}
+                className={`h-12 px-6 rounded-full gap-2 text-base font-medium transition-colors ${
+                  selectedCategory === cat.name 
+                    ? "bg-primary hover:bg-primary/90 text-white" 
+                    : "hover:bg-primary/10 hover:text-primary"
+                }`}
+              >
                 <cat.icon className="w-5 h-5" />
                 {cat.name}
               </Button>
@@ -149,7 +176,7 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {displayRecipes.map((recipe, index) => {
+            {filteredRecipes.length > 0 ? filteredRecipes.map((recipe, index) => {
               const ingredientsList = recipe.ingredients ? recipe.ingredients.split('\n').filter(i => i.trim()) : [];
               return (
                 <div key={index} className="group">
@@ -169,7 +196,11 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
                   )}
                 </div>
               );
-            })}
+            }) : (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground text-lg">No recipes found in this category</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
