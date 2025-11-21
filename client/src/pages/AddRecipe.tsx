@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
   const [, setLocation] = useLocation();
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategoryInput, setNewCategoryInput] = useState("");
-  const [holdingButton, setHoldingButton] = useState<string | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -33,14 +33,15 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
 
   const handleMouseDown = (action: () => void) => {
     action();
-    const interval = setInterval(action, 100);
-    const timeout = setTimeout(() => {
-      clearInterval(interval);
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(action, 150);
+  };
+
+  const handleMouseUp = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
   };
 
   const categoriesOptions = [...existingCategories, "Create New Category"];
@@ -154,10 +155,9 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                       <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
                           type="button"
-                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) }))}
-                          onMouseUp={() => setHoldingButton(null)}
-                          onMouseLeave={() => setHoldingButton(null)}
-                          onClick={() => setFormData({ ...formData, hours: Math.min(24, formData.hours + 1) })}
+                          onMouseDown={() => handleMouseDown(() => setFormData(prev => ({ ...prev, hours: Math.min(24, prev.hours + 1) })))}
+                          onMouseUp={handleMouseUp}
+                          onMouseLeave={handleMouseUp}
                           className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
                           <ChevronUp className="w-3 h-3 text-primary pointer-events-none" />
@@ -180,10 +180,9 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                         />
                         <button
                           type="button"
-                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) }))}
-                          onMouseUp={() => setHoldingButton(null)}
-                          onMouseLeave={() => setHoldingButton(null)}
-                          onClick={() => setFormData({ ...formData, hours: Math.max(0, formData.hours - 1) })}
+                          onMouseDown={() => handleMouseDown(() => setFormData(prev => ({ ...prev, hours: Math.max(0, prev.hours - 1) })))}
+                          onMouseUp={handleMouseUp}
+                          onMouseLeave={handleMouseUp}
                           className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
                           <ChevronDown className="w-3 h-3 text-primary pointer-events-none" />
@@ -195,10 +194,9 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                       <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-lg p-0.5 h-9">
                         <button
                           type="button"
-                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) }))}
-                          onMouseUp={() => setHoldingButton(null)}
-                          onMouseLeave={() => setHoldingButton(null)}
-                          onClick={() => setFormData({ ...formData, minutes: Math.min(59, formData.minutes + 5) })}
+                          onMouseDown={() => handleMouseDown(() => setFormData(prev => ({ ...prev, minutes: Math.min(59, prev.minutes + 5) })))}
+                          onMouseUp={handleMouseUp}
+                          onMouseLeave={handleMouseUp}
                           className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
                           <ChevronUp className="w-3 h-3 text-primary pointer-events-none" />
@@ -221,10 +219,9 @@ export default function AddRecipe({ onRecipeAdded, existingCategories = [] }: { 
                         />
                         <button
                           type="button"
-                          onMouseDown={() => handleMouseDown(() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) }))}
-                          onMouseUp={() => setHoldingButton(null)}
-                          onMouseLeave={() => setHoldingButton(null)}
-                          onClick={() => setFormData({ ...formData, minutes: Math.max(0, formData.minutes - 5) })}
+                          onMouseDown={() => handleMouseDown(() => setFormData(prev => ({ ...prev, minutes: Math.max(0, prev.minutes - 5) })))}
+                          onMouseUp={handleMouseUp}
+                          onMouseLeave={handleMouseUp}
                           className="flex items-center justify-center w-7 h-7 rounded bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex-shrink-0 select-none"
                         >
                           <ChevronDown className="w-3 h-3 text-primary pointer-events-none" />
