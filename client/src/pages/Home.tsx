@@ -77,19 +77,9 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
     image: recipe.image || [salmonImage, soupImage, pastaImage, toastImage][idx % 4] || salmonImage
   }));
 
-  const categoryFilterMap = {
-    "Quick & Easy": (recipe: Recipe) => recipe.difficulty === "Easy",
-    "Vegetarian": (recipe: Recipe) => recipe.category === "Breakfast" || recipe.category === "Salad",
-    "Trending": (recipe: Recipe) => recipe.rating >= 4.8
-  };
+  const allCategories = Array.from(new Set(displayRecipes.map(r => r.category).filter(Boolean)));
 
-  const filteredRecipes = selectedCategory ? displayRecipes.filter(categoryFilterMap[selectedCategory as keyof typeof categoryFilterMap]) : displayRecipes;
-
-  const categories = [
-    { name: "Quick & Easy", icon: Clock },
-    { name: "Vegetarian", icon: Leaf },
-    { name: "Trending", icon: Flame },
-  ];
+  const filteredRecipes = selectedCategory ? displayRecipes.filter(r => r.category === selectedCategory) : displayRecipes;
 
   return (
     <div className="min-h-screen bg-background font-body">
@@ -130,37 +120,35 @@ export default function Home({ recipes: passedRecipes = [], isAuthenticated = fa
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-12 border-b">
+      {/* Categories Carousel */}
+      <section className="py-12 border-b bg-background overflow-hidden">
         <div className="container px-4 md:px-8">
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-            {selectedCategory && (
+          <div className="flex items-center gap-3 overflow-x-auto pb-2 -mx-4 px-4 md:-mx-8 md:px-8 scrollbar-hide">
+            <Button 
+              onClick={() => setSelectedCategory(null)}
+              variant={!selectedCategory ? "default" : "secondary"}
+              className={`h-12 px-6 rounded-full whitespace-nowrap text-base font-medium transition-colors flex-shrink-0 ${
+                !selectedCategory 
+                  ? "bg-primary hover:bg-primary/90 text-white" 
+                  : "hover:bg-primary/10 hover:text-primary"
+              }`}
+            >
+              All Recipes
+            </Button>
+            {allCategories.map((category) => (
               <Button 
-                onClick={() => setSelectedCategory(null)}
-                className="h-12 px-6 rounded-full gap-2 text-base font-medium bg-primary hover:bg-primary/90 text-white"
-              >
-                <ArrowRight className="w-4 h-4 rotate-180" />
-                Clear Filter
-              </Button>
-            )}
-            {categories.map((cat, i) => (
-              <Button 
-                key={i} 
-                onClick={() => setSelectedCategory(cat.name)}
-                variant={selectedCategory === cat.name ? "default" : "secondary"}
-                className={`h-12 px-6 rounded-full gap-2 text-base font-medium transition-colors ${
-                  selectedCategory === cat.name 
+                key={category} 
+                onClick={() => setSelectedCategory(category)}
+                variant={selectedCategory === category ? "default" : "secondary"}
+                className={`h-12 px-6 rounded-full whitespace-nowrap text-base font-medium transition-colors flex-shrink-0 ${
+                  selectedCategory === category 
                     ? "bg-primary hover:bg-primary/90 text-white" 
                     : "hover:bg-primary/10 hover:text-primary"
                 }`}
               >
-                <cat.icon className="w-5 h-5" />
-                {cat.name}
+                {category}
               </Button>
             ))}
-            <Button variant="ghost" className="h-12 px-6 rounded-full gap-2 text-base font-medium ml-auto text-primary hover:text-primary/80 hover:bg-transparent group">
-              View All Categories <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
           </div>
         </div>
       </section>
