@@ -106,6 +106,9 @@
   * {
     @apply border-border;
   }
+  html, body {
+    -webkit-overflow-scrolling: touch;
+  }
   body {
     @apply font-body antialiased bg-background text-foreground;
   }
